@@ -4,9 +4,14 @@
   "description": "",
   "main": "module/index.js",
   "types": "module/index.d.ts",
+  "bin": {
+    "gameloop": "./module/gameloop/cli.js"
+  },
   "scripts": {
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./module/gameloop/cli.js start module/example/game-server",
+    "restart": "node ./module/gameloop/cli.js restart module/example/game-server",
+    "shutdown": "node ./module/gameloop/cli.js shutdown module/example/game-server"
   },
   "repository": {
     "type": "git",
@@ -26,7 +31,10 @@
     "reflect-metadata": "^0.1.13"
   },
   "dependencies": {
+    "@types/yargs": "^17.0.2",
+    "bluebird": "^3.7.2",
     "terminal-kit": "^2.1.5",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "yargs": "^17.0.1"
   }
 }

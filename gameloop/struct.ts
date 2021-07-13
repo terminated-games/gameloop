@@ -1,3 +1,5 @@
+import { Allocation } from './shared/allocation'
+
 function advanceOffset(target: Struct, bytes: number)
 {
   const constructor: any = target.constructor
@@ -10,30 +12,34 @@ function advanceOffset(target: Struct, bytes: number)
 export default class Struct
 {
   static readonly bytes: number = 0
+  static readonly entry: string = __filename
 
-  buffer: Buffer | null = null
+  private allocation?: Allocation | SharedArrayBuffer
+  private _buffer?: Buffer
 
-  constructor(bytes?: number)
+  swap(allocation: Allocation | SharedArrayBuffer)
   {
-    const constructor: any = this.constructor
-    
-    if (bytes && bytes < constructor.bytes)
-    {
-      // TODO: Maybe just assign minimum required bytes, instead of throwing an error.
-      throw new Error(`Struct.constructor() Not enough bytes on construction! Required: ${constructor.bytes}, requested: ${bytes}`)
-    }
+    this.allocation = allocation
 
-    if (bytes)
+    if (allocation instanceof SharedArrayBuffer)
     {
-      this.buffer = Buffer.alloc(bytes)
+      this._buffer = Buffer.from(allocation)
     }
   }
 
-  swap(buffer: ArrayBuffer | SharedArrayBuffer): Buffer | null
+  get buffer(): Buffer | null
   {
-    const previous = this.buffer || null
-    this.buffer = Buffer.from(buffer)
-    return previous
+    if (this.allocation instanceof Allocation)
+    {
+      return this.allocation.view || null
+    }
+
+    if (this._buffer == null && this.allocation instanceof SharedArrayBuffer)
+    {
+      return this._buffer = Buffer.from(this.allocation)
+    }
+
+    return this._buffer || null
   }
 
   static string(bytes: number)
@@ -219,7 +225,7 @@ export default class Struct
   static r32(littleEndian: boolean = true)
   {
     return (target: Struct, propertyKey: string) => {
-      const offset = advanceOffset(target, 8)
+      const offset = advanceOffset(target, 4)
 
       Object.defineProperty(target, propertyKey, {
         configurable: false,
@@ -257,7 +263,7 @@ export default class Struct
   static pad(bytes: number)
   {
     return (target: Struct, propertyKey: string) => {
-      const offset = advanceOffset(target, 8)
+      const offset = advanceOffset(target, bytes)
 
       Object.defineProperty(target, propertyKey, {
         configurable: false,
