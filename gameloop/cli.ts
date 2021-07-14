@@ -18,10 +18,7 @@ function ControllerCommand(yargs: Util.ProcessArgumentBuilder)
 
 function CommandStart(arg: Controller)
 {
-  console.log('command start', arg.controller)
-
-  Shell.start(Path.join(process.cwd(), arg.controller))
-  .catch((e: Error) => Shell.unhandledException(e))
+  Shell.run(arg.controller)
 }
 
 // function CommandRestart(arg: Util.ProcessArguments)

@@ -10,16 +10,38 @@
 
 import { Controller, Process, Shell } from '../gameloop/common'
 
-class Geometry extends Process.External
+// TODO: Initialize shared data
+
+class Gateway extends Process.Internal('gateway/controller')
 {
-  // readonly entry: string = 'process/geometry'
+  
 }
+
+class Test extends Process.Internal('gateway/controller')
+{
+  // static hello: number = 10
+}
+
+// Test.controller
+// Test.hello
+
 
 @Controller()
 export default class GameServer extends Shell
 {
-  static unhandledException(e: Error)
-  {
-    console.log('unhandled exception:', e)
-  }
+  readonly dependecies = [
+    'dependency'
+  ]
+
+  readonly sequence: Process.Entry[] = [
+    Gateway,
+    Test,
+
+    { type: Process.Type.Internal, controller: 'gateway/controller' },
+    { type: Process.Type.Internal, controller: 'auth/controller' },
+
+    { type: Process.Type.Internal, controller: 'world/controller' },
+    { type: Process.Type.Internal, controller: 'ai/controller' },
+    { type: Process.Type.Internal, controller: 'player/controller' }
+  ]
 }
