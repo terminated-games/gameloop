@@ -8,40 +8,56 @@
 // and acting as balance loaders if they are required to. (only for internal threads)
 // TODO: Only internal threads can share buffers
 
-import { Controller, Process, Shell } from '../gameloop/common'
+console.log('game server')
 
-// TODO: Initialize shared data
+import { Controller, Shell, Containers, Internal, External, ContainerType } from '../gameloop/common'
 
-class Gateway extends Process.Internal('gateway/controller')
+class Gateway extends Internal('gateway/controller')
 {
-  
+
 }
-
-class Test extends Process.Internal('gateway/controller')
-{
-  // static hello: number = 10
-}
-
-// Test.controller
-// Test.hello
-
 
 @Controller()
 export default class GameServer extends Shell
 {
-  readonly dependecies = [
+  dependencies: string[] = [
     'dependency'
   ]
 
-  readonly sequence: Process.Entry[] = [
-    Gateway,
-    Test,
+  containers: Containers = [
+    new Gateway,
 
-    { type: Process.Type.Internal, controller: 'gateway/controller' },
-    { type: Process.Type.Internal, controller: 'auth/controller' },
-
-    { type: Process.Type.Internal, controller: 'world/controller' },
-    { type: Process.Type.Internal, controller: 'ai/controller' },
-    { type: Process.Type.Internal, controller: 'player/controller' }
+    { type: ContainerType.Internal, controller: 'gateway/controller' }
   ]
 }
+
+// TODO: Initialize shared data
+
+// class Gateway extends Process.Internal('gateway/controller')
+// {
+//   constructor()
+//   {
+//     super()
+
+//     console.log('Gateway Container Constructed')
+//   }
+// }
+
+// @Controller()
+// export default class GameServer extends Shell
+// {
+//   readonly dependecies = [
+//     'dependency'
+//   ]
+
+//   readonly sequence: Process.Entry[] = [
+//     Gateway,
+
+//     // // { type: Process.Type.Internal, controller: 'gateway/controller' },
+//     // { type: Process.Type.Internal, controller: 'auth/controller' },
+
+//     // { type: Process.Type.Internal, controller: 'world/controller' },
+//     // { type: Process.Type.Internal, controller: 'ai/controller' },
+//     // { type: Process.Type.Internal, controller: 'player/controller' }
+//   ]
+// }

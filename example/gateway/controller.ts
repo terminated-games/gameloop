@@ -1,3 +1,9 @@
-import { Controller } from '../../gameloop/common'
+import { Shell, Controller } from '../../gameloop/common'
 
-console.log(Controller)
+console.log('running gateway controller thread')
+
+@Controller()
+export class Gateway extends Shell
+{
+  
+}
