@@ -1,6 +1,6 @@
 {
-  "name": "@gameloop/server",
-  "version": "1.0.1",
+  "name": "@gameloopjs/server",
+  "version": "1.0.2",
   "description": "",
   "main": "./module/gameloop/index.js",
   "types": "./module/gameloop/index.d.ts",
@@ -21,13 +21,11 @@
     "url": "https://github.com/terminated-games/gameloop/issues"
   },
   "homepage": "https://github.com/terminated-games/gameloop#readme",
-  "devDependencies": {
+  "dependencies": {
     "@types/node": "^16.3.1",
     "@types/terminal-kit": "^1.28.3",
     "@types/uuid": "^8.3.1",
-    "reflect-metadata": "^0.1.13"
-  },
-  "dependencies": {
+    "reflect-metadata": "^0.1.13",
     "@types/yargs": "^17.0.2",
     "bluebird": "^3.7.2",
     "terminal-kit": "^2.1.5",
