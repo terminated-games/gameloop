@@ -1,63 +1,71 @@
-// TODO: Process registration/reading from config file (cli/process)
-// TODO: Cli should keep it within the gameloop running in the background
-// TODO: Sharing Allocations and swapping them between processes (internally)
-// TODO: Shared memory must wait during swaps
-// TODO: Preparing a network running processes/threads to bootup in sequence and waiting for these processes to become online in master process
-// TODO: Being able to spawn/create new thread dynamically through balance loader
-// TODO: Each process/thread running internally should configure themselves in the network as containers before executing their body to do their things they want
-// and acting as balance loaders if they are required to. (only for internal threads)
-// TODO: Only internal threads can share buffers
+import { Shell, Controller, Sequence, Internal, Util } from '../gameloop'
+import { Allocation } from '../gameloop/allocation'
 
-console.log('game server')
+const env = Util.buildProcessArguments<{ namespace: string }>(
+  yargs => {
+    return yargs.string('namespace')
+    .demandOption('namespace')
+    .describe('namespace', 'World namespace')
+  }
+)
 
-import { Controller, Shell, Containers, Internal, External, ContainerType } from '../gameloop/common'
+const data = Allocation.create('data/item', 1024)
 
-class Gateway extends Internal('gateway/controller')
+class Gateway extends Internal('gateway/controller.js')
 {
+  shared: Allocation[] = [
+    data
+  ]
+  
+  env: NodeJS.Dict<string> = env
+}
 
+class Auth extends Internal('auth/controller.js')
+{
+  shared: Allocation[] = [
+    data
+  ]
+  
+  env: NodeJS.Dict<string> = env
+}
+
+
+class World extends Internal('world/controller.js')
+{
+  shared: Allocation[] = [
+    data
+  ]
+  
+  env: NodeJS.Dict<string> = env
+}
+
+class AI extends Internal('ai/controller.js')
+{
+  shared: Allocation[] = [
+    data
+  ]
+  
+  env: NodeJS.Dict<string> = env
+}
+
+class ClientInput extends Internal('client-input/controller.js')
+{
+  shared: Allocation[] = [
+    data
+  ]
+  
+  env: NodeJS.Dict<string> = env
 }
 
 @Controller()
 export default class GameServer extends Shell
 {
-  dependencies: string[] = [
-    'dependency'
-  ]
+  sequence: Sequence = [
+    new Gateway(),
+    new Auth(),
 
-  containers: Containers = [
-    new Gateway,
-
-    { type: ContainerType.Internal, controller: 'gateway/controller' }
+    new AI(),
+    new World(),
+    new ClientInput()
   ]
 }
-
-// TODO: Initialize shared data
-
-// class Gateway extends Process.Internal('gateway/controller')
-// {
-//   constructor()
-//   {
-//     super()
-
-//     console.log('Gateway Container Constructed')
-//   }
-// }
-
-// @Controller()
-// export default class GameServer extends Shell
-// {
-//   readonly dependecies = [
-//     'dependency'
-//   ]
-
-//   readonly sequence: Process.Entry[] = [
-//     Gateway,
-
-//     // // { type: Process.Type.Internal, controller: 'gateway/controller' },
-//     // { type: Process.Type.Internal, controller: 'auth/controller' },
-
-//     // { type: Process.Type.Internal, controller: 'world/controller' },
-//     // { type: Process.Type.Internal, controller: 'ai/controller' },
-//     // { type: Process.Type.Internal, controller: 'player/controller' }
-//   ]
-// }
