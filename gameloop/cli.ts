@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { isMainThread } from 'worker_threads'
 import { Util } from './util'
 import { Context } from './context'

@@ -1,5 +1,5 @@
 {
-  "name": "@gameloopjs/server",
+  "name": "@gameloopjs/controller",
   "version": "1.0.3",
   "description": "",
   "main": "./module/gameloop/index.js",
