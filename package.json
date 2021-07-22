@@ -1,11 +1,15 @@
 {
   "name": "@gameloopjs/server",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "./module/gameloop/index.js",
   "types": "./module/gameloop/index.d.ts",
   "bin": {
     "gameloop": "./module/gameloop/cli.js"
+  },
+  "engines": {
+    "node": ">=14.4.0",
+    "npm": ">=7.2.0"
   },
   "scripts": {
     "build": "tsc"
