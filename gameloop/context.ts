@@ -23,8 +23,6 @@ export const Context: Context = {
 
 async function thread(shell: Shell)
 {
-  const thread = await Thread.fromMessagePort(parentPort)
-
   Object.defineProperties(Context, {
     Root: {
       configurable: false,
@@ -36,8 +34,12 @@ async function thread(shell: Shell)
       configurable: false,
       writable: false,
       value: workerData.controller
-    },
+    }
+  })
 
+  const thread = await Thread.fromMessagePort(parentPort)
+
+  Object.defineProperties(Context, {
     Thread: {
       configurable: false,
       writable: false,
