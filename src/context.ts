@@ -2,6 +2,7 @@ import { isMainThread, parentPort, workerData } from 'worker_threads'
 import { Shell } from './shell'
 import Container from './container'
 import { Thread } from './thread'
+import { Util } from './util'
 
 export interface Context
 {
@@ -79,7 +80,17 @@ export function Controller(name?: string)
       throw new Error(`INTERNAL_ERROR: Only one controller per process is allowed`)
     }
 
-    console.log('Controller:', Context)
+    Object.defineProperty(Context, 'Controller', {
+      writable: false,
+      configurable: false,
+      value: process.argv[1]
+    })
+  
+    Object.defineProperty(Context, 'Root', {
+      writable: false,
+      configurable: false,
+      value: Util.getDirectoryOfPath(process.argv[1])
+    })
 
     const shell: Shell = new target()
 
