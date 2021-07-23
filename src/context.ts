@@ -24,20 +24,6 @@ export const Context: Context = {
 
 async function thread(shell: Shell)
 {
-  Object.defineProperties(Context, {
-    Root: {
-      configurable: false,
-      writable: false,
-      value: workerData.root
-    },
-
-    Controller: {
-      configurable: false,
-      writable: false,
-      value: workerData.controller
-    }
-  })
-
   const thread = await Thread.fromMessagePort(parentPort)
 
   Object.defineProperty(Context, 'Thread', {
