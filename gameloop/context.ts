@@ -79,6 +79,8 @@ export function Controller(name?: string)
       throw new Error(`INTERNAL_ERROR: Only one controller per process is allowed`)
     }
 
+    console.log('Controller:', Context)
+
     const shell: Shell = new target()
 
     Object.defineProperty(Context, 'Name', {
