@@ -24,12 +24,16 @@ export const Context: Context = {
 
 async function thread(shell: Shell)
 {
-  const thread = await Thread.fromMessagePort(parentPort)
+  Object.defineProperty(Context, 'Root', {
+    writable: false,
+    configurable: false,
+    value: workerData.root
+  })
 
   Object.defineProperty(Context, 'Thread', {
     configurable: false,
     writable: false,
-    value: thread
+    value: await Thread.fromMessagePort(parentPort)
   })
 
   for (const dependency of shell.dependencies)
@@ -40,6 +44,12 @@ async function thread(shell: Shell)
 
 async function main(shell: Shell)
 {
+  Object.defineProperty(Context, 'Root', {
+    writable: false,
+    configurable: false,
+    value: Util.getDirectoryOfPath(process.argv[1])
+  })
+
   for (const dependency of shell.dependencies)
   {
     await shell.import(dependency)
@@ -70,12 +80,6 @@ export function Controller(name?: string)
       writable: false,
       configurable: false,
       value: process.argv[1]
-    })
-  
-    Object.defineProperty(Context, 'Root', {
-      writable: false,
-      configurable: false,
-      value: Util.getDirectoryOfPath(process.argv[1])
     })
 
     const shell: Shell = new target()
