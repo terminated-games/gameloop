@@ -7,7 +7,7 @@ import * as Path from 'path'
 
 if (!isMainThread)
 {
-  throw new Error(`INTERNAL_ERROR: Cli can only be included in main process`)
+  throw new Error(`INTERNAL_ERROR: Cli can only be imported in main process`)
 }
 
 Util.processArguments()
