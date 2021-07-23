@@ -3,7 +3,7 @@
     "target": "esnext",
     "module": "commonjs",
     "declaration": true,
-    "outDir": "module",
+    "outDir": "lib",
     "strict": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
