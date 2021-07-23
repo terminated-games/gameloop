@@ -35,7 +35,7 @@ Util.processArguments()
       value: Util.getDirectoryOfPath(controller)
     })
 
-    console.log(Context)
+    console.log(Context, process.pid)
 
     try {
       require(controller)
