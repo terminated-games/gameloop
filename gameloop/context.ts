@@ -39,12 +39,10 @@ async function thread(shell: Shell)
 
   const thread = await Thread.fromMessagePort(parentPort)
 
-  Object.defineProperties(Context, {
-    Thread: {
-      configurable: false,
-      writable: false,
-      value: thread
-    }
+  Object.defineProperty(Context, 'Thread', {
+    configurable: false,
+    writable: false,
+    value: thread
   })
 
   for (const dependency of shell.dependencies)
@@ -83,18 +81,16 @@ export function Controller(name?: string)
 
     const shell: Shell = new target()
 
-    Object.defineProperties(Context, {
-      Name: {
-        writable: false,
-        configurable: false,
-        value: name
-      },
+    Object.defineProperty(Context, 'Name', {
+      writable: false,
+      configurable: false,
+      value: name
+    })
 
-      Shell: {
-        writable: false,
-        configurable: false,
-        value: shell
-      }
+    Object.defineProperty(Context, 'Shell', {
+      writable: false,
+      configurable: false,
+      value: shell
     })
 
     process.on('uncaughtException', shell.uncaughtException.bind(shell))
