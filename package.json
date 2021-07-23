@@ -1,6 +1,6 @@
 {
   "name": "@gameloopjs/controller",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "./module/gameloop/index.js",
   "types": "./module/gameloop/index.d.ts",
@@ -12,7 +12,8 @@
     "npm": ">=7.2.0"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "prepare" : "npm run build"
   },
   "repository": {
     "type": "git",
@@ -26,12 +27,13 @@
   },
   "homepage": "https://github.com/terminated-games/gameloop#readme",
   "dependencies": {
+    "@gameloopjs/controller": "^1.0.4",
     "@types/node": "^16.3.1",
     "@types/terminal-kit": "^1.28.3",
     "@types/uuid": "^8.3.1",
-    "reflect-metadata": "^0.1.13",
     "@types/yargs": "^17.0.2",
     "bluebird": "^3.7.2",
+    "reflect-metadata": "^0.1.13",
     "terminal-kit": "^2.1.5",
     "uuid": "^8.3.2",
     "yargs": "^17.0.1"

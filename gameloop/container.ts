@@ -41,6 +41,8 @@ export default class Container implements SimpleContainer
 
   async start(shell: Shell)
   {
+    console.log(Context)
+    
     const controller = Path.join(Context.Root, this.controller)
 
     require.resolve(controller)

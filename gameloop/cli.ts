@@ -2,7 +2,7 @@
 
 import { isMainThread } from 'worker_threads'
 import { Util } from './util'
-import { Context } from './context'
+import { Context } from './index'
 import * as Path from 'path'
 
 if (!isMainThread)
@@ -34,6 +34,8 @@ Util.processArguments()
       configurable: false,
       value: Util.getDirectoryOfPath(controller)
     })
+
+    console.log(Context)
 
     try {
       require(controller)
