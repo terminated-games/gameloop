@@ -9,5 +9,6 @@ Controlled environment for developing concurrent, multithreaded, performant & ev
 * Monitoring to control the status of running threads and utilization metrics.
 * Load balancer, to spawn additional worker_threads on demand.
 * Cli to control the daemon start, restart and stop controllers.
+* Runtime hooks to run along the shell runtime.
  
 This repo is under development - 2021

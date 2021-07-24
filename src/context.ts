@@ -40,6 +40,8 @@ async function thread(shell: Shell)
   {
     await shell.import(dependency)
   }
+  
+  await Promise.all(shell.hooks)
 }
 
 async function main(shell: Shell)
@@ -66,6 +68,8 @@ async function main(shell: Shell)
 
     await (container as Container).start(shell)
   }
+
+  await Promise.all(shell.hooks)
 }
 
 export function Controller(name?: string)

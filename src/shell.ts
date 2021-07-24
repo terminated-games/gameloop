@@ -10,6 +10,8 @@ export class Shell
   readonly dependencies: string[] = []
   readonly sequence: Sequence = []
 
+  readonly hooks: Function[] = []
+
   async import(module: string)
   {
     return require(Path.join(Context.Root, module))
@@ -34,6 +36,13 @@ export class Shell
       process.exit(0)
     } else {
       throw error
+    }
+  }
+
+  static Hook()
+  {
+    return (target: any, propertyKey: string) => {
+      Context.Shell.hooks.push(target[propertyKey])
     }
   }
 }

@@ -13,6 +13,7 @@ export interface SimpleContainer {
 export declare type Sequence = (Container | SimpleContainer)[];
 export default class Container implements SimpleContainer {
     readonly env: NodeJS.Dict<string>;
+    readonly argv: any[];
     readonly controller: string;
     readonly entry: string;
     readonly type: ContainerType;
@@ -25,6 +26,7 @@ export default class Container implements SimpleContainer {
 export declare function Internal(controller: string): {
     new (): {
         readonly env: NodeJS.Dict<string>;
+        readonly argv: any[];
         readonly controller: string;
         readonly entry: string;
         readonly type: ContainerType;
@@ -37,6 +39,7 @@ export declare function Internal(controller: string): {
 export declare function External(controller: string): {
     new (): {
         readonly env: NodeJS.Dict<string>;
+        readonly argv: any[];
         readonly controller: string;
         readonly entry: string;
         readonly type: ContainerType;
