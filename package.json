@@ -1,6 +1,6 @@
 {
   "name": "@gameloopjs/controller",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "Controlled environment for developing concurrent, multithreaded, performant & event-based (I/O) game servers using NodeJS.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",

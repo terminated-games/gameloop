@@ -1,8 +1,15 @@
-const Mapping: Map<string, Function[]> = new Map()
+interface Hook
+{
+  hook: Function
+  target: any
+  args: any[]
+}
+
+const Mapping: Map<string, Hook[]> = new Map()
 
 const DEFAULT_MAPPING = 'default'
 
-export function Hook(stack: string = DEFAULT_MAPPING)
+export function Hook(stack: string = DEFAULT_MAPPING, args: any[] = [])
 {
   return (target: any, propertyKey?: string) => {
     const hook = propertyKey ? target[propertyKey] : target
@@ -20,7 +27,7 @@ export function Hook(stack: string = DEFAULT_MAPPING)
       Mapping.set(stack, mapping)
     }
 
-    mapping.push(hook)
+    mapping.push({ hook, target, args })
   }
 }
 
@@ -35,5 +42,7 @@ export async function Flush(stack: string = DEFAULT_MAPPING)
 
   Mapping.set(stack, [])
 
-  return await Promise.all(mapping)
+  return await Promise.all(
+    mapping.map(({ hook, target, args }) => hook.apply(target, args))
+  )
 }
