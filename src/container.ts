@@ -20,6 +20,7 @@ export type Sequence = ( Container | SimpleContainer )[]
 export default class Container implements SimpleContainer
 {
   readonly env: NodeJS.Dict<string> = {}
+  readonly argv: any[] = []
 
   readonly controller: string
   readonly entry!: string

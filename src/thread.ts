@@ -175,6 +175,7 @@ export class Thread
     thread.container = container
 
     const process = thread.process = new Worker(container.entry, {
+      argv: container.argv,
       env: container.env as NodeJS.Dict<string>,
       workerData: {
         root: Context.Root,
