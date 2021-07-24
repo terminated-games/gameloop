@@ -3,6 +3,7 @@ import { Shell } from './shell'
 import Container from './container'
 import { Thread } from './thread'
 import { Util } from './util'
+import * as Runtime from './runtime'
 
 export interface Context
 {
@@ -40,8 +41,8 @@ async function thread(shell: Shell)
   {
     await shell.import(dependency)
   }
-  
-  await Promise.all(shell.hooks)
+
+  await Runtime.Flush()
 }
 
 async function main(shell: Shell)
@@ -69,7 +70,7 @@ async function main(shell: Shell)
     await (container as Container).start(shell)
   }
 
-  await Promise.all(shell.hooks)
+  await Runtime.Flush()
 }
 
 export function Controller(name?: string)
