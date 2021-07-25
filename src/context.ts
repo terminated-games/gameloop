@@ -37,6 +37,10 @@ async function thread(shell: Shell)
     value: await Thread.fromMessagePort(parentPort)
   })
 
+  module.paths.push(Context.Root)
+
+  console.log('thread root:', Context.Root)
+
   for (const dependency of shell.dependencies)
   {
     await shell.import(dependency)
@@ -52,6 +56,10 @@ async function main(shell: Shell)
     configurable: false,
     value: Util.getDirectoryOfPath(process.argv[1])
   })
+
+  module.paths.push(Context.Root)
+
+  console.log('root:', Context.Root)
 
   for (const dependency of shell.dependencies)
   {
