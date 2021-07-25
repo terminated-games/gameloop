@@ -1,6 +1,6 @@
 # GameLoop Controller
  
-Controlled environment for developing concurrent, multithreaded, performant & event-based (I/O) game servers using NodeJS.
+Controlled environment for developing concurrent, multithreaded, performant & event-based (I/O) game servers using TypeScript.
  
 ## The general todo list
 * Use of SharedArrayBuffer between internal threads with Atomics synchronization.

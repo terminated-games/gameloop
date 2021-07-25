@@ -5,11 +5,9 @@ interface Hook
   args: any[]
 }
 
-const Mapping: Map<string, Hook[]> = new Map()
+const Stack: Hook[] = []
 
-const DEFAULT_MAPPING = 'default'
-
-export function Hook(stack: string = DEFAULT_MAPPING, args: any[] = [])
+export function Hook(args: any[] = [])
 {
   return (target: any, propertyKey?: string) => {
     const hook = propertyKey ? target[propertyKey] : target
@@ -19,30 +17,36 @@ export function Hook(stack: string = DEFAULT_MAPPING, args: any[] = [])
       throw new Error(`Runtime.Hook() Requires a valid property type of function`)
     }
 
-    let mapping = Mapping.get(stack)
-
-    if (mapping == null)
-    {
-      mapping = []
-      Mapping.set(stack, mapping)
-    }
-
-    mapping.push({ hook, target, args })
+    Stack.push({ hook, target, args })
   }
 }
 
-export async function Flush(stack: string = DEFAULT_MAPPING)
+export function Constructor(args: any[] = [])
 {
-  const mapping = Mapping.get(stack)
+  return (target: any, propertyKey: string) => {
+    const hook = propertyKey ? target[propertyKey] : target
 
-  if (mapping == null)
-  {
-    return null
+    if (typeof hook !== 'function')
+    {
+      throw new Error(`Runtime.Hook() Requires a valid property type of function`)
+    }
+
+    const constructor = target.constructor
+
+    if (typeof constructor !== 'function')
+    {
+      throw new Error(`Runtime.Constructor() Requires a valid target constructor function`)
+    }
+
+    target.constructor = function Runtime (..._args: any[]) {
+      constructor(..._args)
+
+      Stack.push({ hook, target: this, args })
+    }
   }
+}
 
-  Mapping.set(stack, [])
-
-  return await Promise.all(
-    mapping.map(({ hook, target, args }) => hook.apply(target, args))
-  )
+export async function Flush()
+{
+  
 }
