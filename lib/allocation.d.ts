@@ -10,7 +10,7 @@ export declare class Allocation {
     extend(bytes: number): Promise<void>;
     share(thread: Thread): Promise<unknown>;
     static extend(partition: string, bytes: number): Promise<void>;
-    static create(partition: string | undefined, bytes: number): Allocation;
+    static create(partition: string, bytes: number): Allocation;
     static swap(partition: string, buffer: SharedArrayBuffer): SharedArrayBuffer | null;
     static ensure(partition: string, buffer: SharedArrayBuffer): Allocation;
     static find(partition: string): Allocation | null;

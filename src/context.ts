@@ -4,6 +4,7 @@ import Container from './container'
 import { Thread } from './thread'
 import { Util } from './util'
 import * as Runtime from './runtime'
+import { addPath } from 'app-module-path'
 
 export interface Context
 {
@@ -31,16 +32,14 @@ async function thread(shell: Shell)
     value: workerData.root
   })
 
+  addPath(Context.Root)
+
   Object.defineProperty(Context, 'Thread', {
     configurable: false,
     writable: false,
     value: await Thread.fromMessagePort(parentPort)
   })
-
-  module.paths.push(Context.Root)
-
-  console.log('thread root:', Context.Root)
-
+  
   for (const dependency of shell.dependencies)
   {
     await shell.import(dependency)
@@ -57,9 +56,7 @@ async function main(shell: Shell)
     value: Util.getDirectoryOfPath(process.argv[1])
   })
 
-  module.paths.push(Context.Root)
-
-  console.log('root:', Context.Root)
+  addPath(Context.Root)
 
   for (const dependency of shell.dependencies)
   {
